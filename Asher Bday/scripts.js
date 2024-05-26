@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://localhost:3000/photos')
+    fetch('https://asher-birthday.herokuapp.com/photos')
         .then(response => response.json())
         .then(photos => {
             const photoGallery = document.getElementById('photo-gallery');
             photos.forEach(photo => {
                 const img = document.createElement('img');
-                img.src = `http://localhost:3000/${photo.path}`;
+                img.src = `https://git.heroku.com/asher-birthday.git/${photo.path}`;
                 photoGallery.appendChild(img);
             });
         })
