@@ -14,11 +14,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/asher_birthday', {
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/asher_birthday';
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
+})
+.then(() => {
+    console.log("Connected to MongoDB");
+})
+.catch(err => {
+    console.error("Failed to connect to MongoDB", err);
 });
 
+// Photo schema and model
 const photoSchema = new mongoose.Schema({
     filename: String,
     path: String,
@@ -28,6 +36,14 @@ const photoSchema = new mongoose.Schema({
 });
 
 const Photo = mongoose.model('Photo', photoSchema);
+
+// Comment schema and model
+const commentSchema = new mongoose.Schema({
+    text: String,
+    createdAt: { type: Date, default: Date.now }
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
@@ -60,6 +76,21 @@ app.get('/photos', async (req, res) => {
     res.json(photos);
 });
 
+// Route to handle comment submissions
+app.post('/comments', async (req, res) => {
+    const { text } = req.body;
+    const comment = new Comment({ text });
+
+    await comment.save();
+    res.json(comment);
+});
+
+app.get('/comments', async (req, res) => {
+    const comments = await Comment.find();
+    res.json(comments);
+});
+
+// Start the server
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
