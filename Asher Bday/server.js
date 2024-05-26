@@ -11,9 +11,10 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/asher_birthday', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/asher_birthday', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
