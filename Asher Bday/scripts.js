@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const photoGallery = document.getElementById('photo-gallery');
             photos.forEach(photo => {
                 const img = document.createElement('img');
-                img.src = `https://git.heroku.com/asher-birthday.git/${photo.path}`;
+                img.src = `https://asher-birthday-7824e366fbbf.herokuapp.com//${photo.path}`;
                 photoGallery.appendChild(img);
             });
         })

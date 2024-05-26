@@ -6,7 +6,7 @@ document.getElementById('upload-form').addEventListener('submit', function(event
     const formData = new FormData();
     formData.append('photo', file);
 
-    fetch('https://git.heroku.com/asher-birthday.git/upload', {
+    fetch('https://asher-birthday-7824e366fbbf.herokuapp.com/upload', {
         method: 'POST',
         body: formData
     })
